@@ -83,7 +83,7 @@ export class TodoComponent implements OnInit {
   }
 
 
-  selectrow(item:TodoItemDto) :number{debugger;
+  selectrow(item:TodoItemDto) : number{
     const itemIndex = this.selectedList.items.indexOf(this.selectedItem);
     return item.id;
 
