@@ -19,7 +19,7 @@
         <li *ngFor="let list of lists; index as i" class="list-group-item"
           [ngClass]="{ 'active': selectedList == list }" (click)="selectedList = list">
           <div class="todo-item-delete"  *ngIf="list == selectedList">
-            <button class="btn btn-default float-end" (click)="deleteListRow(list)" ><i class="bi bi-trash"></i> delete</button>
+            <button class="btn btn-default float-end" (click)="deleteListRow(list)" ><i class="bi bi-trash"></i> Delete</button>
           </div>
           <div class="clearfix">
             <div class="float-start">
@@ -49,7 +49,7 @@
             <button class="btn btn-outline-secondary" type="button">Search</button>
           </div> -->
         </div>
-        <li class="list-group-item"  *ngFor="let item of selectedList.items  | filter:term; index as i">
+        <li class="list-group-item"  *ngFor="let item of selectedList.items  | filter:term; index as i; let oddElement=odd;let evenElement=even" [ngClass]="{'oddClass':oddElement,'evenClass':evenElement}" (click)="item.done = !item.done" [style.background]="selectedRowBGcolor(item,colorRecieved)">
           <div class="d-flex">
             <div class="todo-item-checkbox">
               <input type="checkbox" [(ngModel)]="item.done" (change)="updateItem(item)" />
@@ -69,9 +69,9 @@
             <div class="todo-item-delete" >
               <button class="btn btn-default float-end"  (click)="deleteItemRow(item)"><i class="bi bi-trash"></i></button>
             </div>
-            <div class="todo-item-color">
-              <button class="btn btn-default float-end"  [(colorPicker)]="colorRecieved" [ngStyle]="{'background-color': colorRecieved }"><i class="bi bi-eyedropper"></i></button>
-            </div>
+            <!-- <div class="todo-item-color">
+              <button class="btn btn-default float-end" [(colorPicker)]="colorRecieved" [ngStyle]="{'background-color': colorRecieved }"><i class="bi bi-eyedropper"></i></button>
+            </div> -->
 
             <div class="todo-item-commands">
               <button *ngIf="item.id != 0" (click)="showItemDetailsModal(itemDetailsModalTemplate, item)"
@@ -85,6 +85,10 @@
          <li class="list-group-item" (click)="addItem()">
           <button class="btn btn-default">Add Item...</button>
         </li>
+      <div><br></div>
+        <div class="todo-item-color">
+          <button class="btn btn-outline-primary float-sm-end"  [(colorPicker)]="colorRecieved" [ngStyle]="{'background-color': colorRecieved }"><i class="bi bi-eyedropper"></i> Change row selector color</button>
+        </div>
 
       </ul>
     </div>

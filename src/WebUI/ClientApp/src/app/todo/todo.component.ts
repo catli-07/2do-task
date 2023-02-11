@@ -51,6 +51,13 @@ export class TodoComponent implements OnInit {
   ) { }
 
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes?.colorRecieved) {
+      console.log(this.colorRecieved); 
+    }
+  }
+
+
   ngOnInit(): void {
     this.listsClient.get().subscribe(
       result => {
@@ -64,40 +71,30 @@ export class TodoComponent implements OnInit {
     );
   }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //     if (changes?.colorRecieved) {
-  //       console.log(this.colorRecieved); // this is added for demo purpouses
-  //     }
-  //   }
 
-    ngOnChanges(changes: SimpleChanges) {
-      if (changes?.colorRecieved) {
-        console.log(this.colorRecieved); 
-        // this is added for demo purpouses
+    backolor:any;
+    getStyle(item,backolor) {
+      if (item === this.selectedItem) {
+          return backolor;
+      } 
+      else {
+          return "";
       }
-    }
+  }
 
-    
 
-    // select_color(color){
-    //   this.color = color;
-    // }
+  selectrow(item:TodoItemDto) :number{debugger;
+    const itemIndex = this.selectedList.items.indexOf(this.selectedItem);
+    return item.id;
 
-    
-    items:any[];
-    
-    changeColors(item:TodoItemDto){
-      this.selectedItem = item;
-      const itemIndex = this.selectedList.items.indexOf(this.selectedItem)
-    // I'm just selecting the first row for this example but you have to define your own logic 
-       setTimeout(() => document.getElementsByClassName('todo4').item, 250);
-    }
+  }
 
-   
+  selectedRowBGcolor(item:TodoItemDto, backcolor:any) {
+    return item.done ? backcolor : '';
+  }
 
-   
 
-    
+  ///////////////////////////////////////////////////////////////////////////////////
 
    deleteItemRow(item:TodoItemDto){
     const itemIndex = this.selectedList.items.indexOf(this.selectedItem);
@@ -105,7 +102,7 @@ export class TodoComponent implements OnInit {
     this.itemsClient.delete(item.id).subscribe(
       () =>
       (this.selectedList.items = this.selectedList.items.filter(
-        t => t.id !== item.id
+        t => t.title !== item.title
       )),
       error => console.error(error)
     );
